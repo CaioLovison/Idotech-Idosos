@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IDOTECH — Tecnologia para Todos</title>
+<style>
+  :root {
+    --amarelo: #FFE600;
+    --preto: #1A1A1A;
+    --cinza-escuro: #2D2D2D;
+    --cinza-medio: #444444;
+    --cinza-claro: #F5F5F5;
+    --branco: #FFFFFF;
+    --destaque: #FFC800;
+    --texto-grande: 20px;
+    --texto-medio: 18px;
+    --texto-pequeno: 16px;
+    --radius: 12px;
+    --sombra: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: var(--texto-medio);
+    background: var(--preto);
+    color: var(--branco);
+    line-height: 1.6;
+  }
+
+  /* ===== TOPO / NAV ===== */
+  #nav {
+    background: var(--preto);
+    border-bottom: 4px solid var(--amarelo);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+#nav .logo img {
+    height: 110@px;
+    width: auto;
+    display: block;
+}
+  #nav-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 2px solid var(--amarelo);
+    color: var(--amarelo);
+    font-size: var(--texto-medio);
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--amarelo); color: var(--preto); }
+  .nav-btn.primary { background: var(--amarelo); color: var(--preto); }
+  .nav-btn.primary:hover { background: var(--destaque); }
+
+  #user-nav { display: none; gap: 12px; align-items: center; }
+  #user-nav .nome-usuario {
+    color: var(--amarelo);
+    font-weight: 700;
+    font-size: var(--texto-medio);
+  }
+  #user-nav .btn-sair {
+    background: none;
+    border: 2px solid #888;
+    color: #ccc;
+    font-size: var(--texto-pequeno);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  #user-nav .btn-sair:hover { border-color: #ccc; color: #fff; }
+
+  /* ===== ABAS DE NAVEGAÇÃO ===== */
+  #menu-abas {
+    background: var(--cinza-escuro);
+    display: flex;
+    gap: 0;
+    padding: 0 24px;
+    border-bottom: 2px solid #333;
+    overflow-x: auto;
+  }
+  .aba {
+    padding: 16px 28px;
+    font-size: var(--texto-medio);
+    font-weight: 700;
+    color: #999;
+    cursor: pointer;
+    border-bottom: 4px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+  .aba:hover { color: var(--amarelo); }
+  .aba.ativa { color: var(--amarelo); border-bottom-color: var(--amarelo); }
+
+  /* ===== PÁGINAS ===== */
+  .pagina { display: none; min-height: calc(100vh - 140px); }
+  .pagina.ativa { display: block; }
+
+  /* ===== HOME ===== */
+  #hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 60px 40px;
+    text-align: center;
+    border-bottom: 4px solid var(--amarelo);
+  }
+  #hero h1 {
+    font-size: 42px;
+    color: var(--amarelo);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  #hero p {
+    font-size: 22px;
+    color: #ccc;
+    max-width: 700px;
+    margin: 0 auto 32px;
+  }
+  #hero .btn-comecar {
+    background: var(--amarelo);
+    color: var(--preto);
+    border: none;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 18px 48px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #hero .btn-comecar:hover { background: var(--destaque); }
+
+  .secao-home {
+    padding: 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .secao-titulo {
+    font-size: 28px;
+    color: var(--amarelo);
+    margin-bottom: 24px;
+    border-left: 6px solid var(--amarelo);
+    padding-left: 16px;
+  }
+
+  /* Grade de cards */
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  /* ===== CARDS DE VÍDEO / CURSO ===== */
+  .card {
+    background: var(--cinza-escuro);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--sombra);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(255,230,0,0.2); }
+
+  .card-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+  }
+  .card-thumb .play-icon {
+    position: absolute;
+    width: 60px; height: 60px;
+    background: var(--amarelo);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    color: var(--preto);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+
+  .card-info { padding: 16px; }
+  .card-info h3 { font-size: var(--texto-grande); margin-bottom: 8px; color: #fff; }
+  .card-info p { font-size: var(--texto-pequeno); color: #aaa; line-height: 1.4; }
+  .card-info .tag {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--preto);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-right: 6px;
+  }
+  .card-info .duracao { color: #888; font-size: 14px; margin-top: 8px; }
+
+  /* ===== PLAYER ===== */
+  #pagina-player .player-wrap {
+    background: #000;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+    color: #444;
+    position: relative;
+  }
+  .player-controls {
+    display: flex; gap: 12px; align-items: center;
+    justify-content: center; padding: 16px;
+    background: var(--cinza-escuro);
+    max-width: 900px; margin: 0 auto;
+  }
+  .ctrl-btn {
+    background: var(--amarelo); color: var(--preto);
+    border: none; font-size: 22px; font-weight: 700;
+    padding: 14px 24px; border-radius: var(--radius);
+    cursor: pointer; transition: background 0.2s;
+  }
+  .ctrl-btn:hover { background: var(--destaque); }
+  .ctrl-btn.secundario {
+    background: var(--cinza-medio); color: #fff;
+  }
+  .ctrl-btn.secundario:hover { background: #555; }
+
+  #player-info { padding: 24px 32px; max-width: 900px; margin: 0 auto; }
+  #player-titulo { font-size: 28px; color: var(--amarelo); margin-bottom: 12px; }
+  #player-desc { font-size: var(--texto-medio); color: #ccc; }
+
+  /* ===== FORMULÁRIOS (Login / Cadastro) ===== */
+  .form-pagina {
+    min-height: calc(100vh - 140px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 16px;
+  }
+  .form-card {
+    background: var(--cinza-escuro);
+    border-radius: 20px;
+    padding: 48px;
+    width: 100%; max-width: 480px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+    border-top: 6px solid var(--amarelo);
+  }
+  .form-card h2 {
+    font-size: 32px; color: var(--amarelo);
+    margin-bottom: 8px; text-align: center;
+  }
+  .form-card .subtitulo {
+    text-align: center; color: #999; margin-bottom: 32px;
+    font-size: var(--texto-medio);
+  }
+  .campo { margin-bottom: 24px; }
+  .campo label {
+    display: block; font-size: var(--texto-grande);
+    font-weight: 700; color: #ddd; margin-bottom: 8px;
+  }
+  .campo input, .campo select {
+    width: 100%; padding: 16px 18px;
+    font-size: var(--texto-grande);
+    background: #222; color: #fff;
+    border: 2px solid #444; border-radius: var(--radius);
+    outline: none; transition: border-color 0.2s;
+  }
+  .campo input:focus, .campo select:focus { border-color: var(--amarelo); }
+  .campo input::placeholder { color: #666; }
+
+  .btn-form {
+    width: 100%; padding: 18px;
+    background: var(--amarelo); color: var(--preto);
+    border: none; font-size: 22px; font-weight: 700;
+    border-radius: var(--radius); cursor: pointer;
+    transition: background 0.2s; margin-top: 8px;
+  }
+  .btn-form:hover { background: var(--destaque); }
+
+  .form-link {
+    text-align: center; margin-top: 20px;
+    color: #999; font-size: var(--texto-medio);
+  }
+  .form-link a {
+    color: var(--amarelo); font-weight: 700;
+    text-decoration: none; cursor: pointer;
+  }
+  .form-link a:hover { text-decoration: underline; }
+
+  .msg-erro {
+    background: #5a0000; color: #ff9999;
+    padding: 14px 18px; border-radius: var(--radius);
+    margin-bottom: 20px; font-size: var(--texto-medio);
+    display: none; border-left: 4px solid #ff4444;
+  }
+  .msg-sucesso {
+    background: #004a00; color: #99ff99;
+    padding: 14px 18px; border-radius: var(--radius);
+    margin-bottom: 20px; font-size: var(--texto-medio);
+    display: none; border-left: 4px solid #44ff44;
+  }
+
+  /* ===== PÁGINA CURSOS ===== */
+  .cursos-wrap { padding: 48px 32px; max-width: 1200px; margin: 0 auto; }
+  .curso-card {
+    background: var(--cinza-escuro);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 24px;
+    display: flex; gap: 28px; align-items: flex-start;
+    box-shadow: var(--sombra);
+    cursor: pointer;
+    transition: transform 0.2s;
+    border-left: 6px solid var(--amarelo);
+  }
+  .curso-card:hover { transform: translateX(6px); }
+  .curso-icon { font-size: 52px; flex-shrink: 0; }
+  .curso-body h3 { font-size: 24px; color: var(--amarelo); margin-bottom: 8px; }
+  .curso-body p { font-size: var(--texto-medio); color: #bbb; margin-bottom: 12px; }
+  .curso-body .aulas-count {
+    font-size: 16px; color: #888;
+  }
+  .btn-acessar-curso {
+    background: var(--amarelo); color: var(--preto);
+    border: none; font-size: 18px; font-weight: 700;
+    padding: 12px 28px; border-radius: var(--radius);
+    cursor: pointer; margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .btn-acessar-curso:hover { background: var(--destaque); }
+
+  /* ===== MINHA CONTA ===== */
+  .conta-wrap { padding: 48px 32px; max-width: 700px; margin: 0 auto; }
+  .conta-wrap h2 { font-size: 32px; color: var(--amarelo); margin-bottom: 32px; }
+  .conta-info {
+    background: var(--cinza-escuro);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .conta-info p { font-size: var(--texto-grande); color: #ccc; margin-bottom: 12px; }
+  .conta-info span { color: #fff; font-weight: 700; }
+
+  /* ===== SOBRE ===== */
+  .sobre-wrap {
+    padding: 60px 40px; max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .sobre-wrap h2 { font-size: 36px; color: var(--amarelo); margin-bottom: 24px; }
+  .sobre-wrap p { font-size: 20px; color: #ccc; margin-bottom: 20px; line-height: 1.7; }
+  .feat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px; margin-top: 40px; text-align: left;
+  }
+  .feat-item {
+    background: var(--cinza-escuro);
+    border-radius: var(--radius);
+    padding: 24px;
+    border-top: 4px solid var(--amarelo);
+  }
+  .feat-item .feat-icon { font-size: 40px; margin-bottom: 12px; }
+  .feat-item h4 { font-size: var(--texto-grande); color: var(--amarelo); margin-bottom: 8px; }
+  .feat-item p { font-size: var(--texto-medio); color: #bbb; }
+
+  /* ===== UPLOAD DE VÍDEO (admin) ===== */
+  .upload-wrap { padding: 48px 32px; max-width: 700px; margin: 0 auto; }
+  .upload-wrap h2 { font-size: 32px; color: var(--amarelo); margin-bottom: 32px; }
+  .upload-card {
+    background: var(--cinza-escuro);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--sombra);
+  }
+
+  /* ===== BUSCA ===== */
+  .busca-wrap { padding: 32px; max-width: 1200px; margin: 0 auto; }
+  .barra-busca {
+    display: flex; gap: 12px; margin-bottom: 32px;
+  }
+  .barra-busca input {
+    flex: 1; padding: 18px 22px;
+    font-size: var(--texto-grande);
+    background: var(--cinza-escuro); color: #fff;
+    border: 2px solid #444; border-radius: var(--radius);
+    outline: none;
+  }
+  .barra-busca input:focus { border-color: var(--amarelo); }
+  .barra-busca button {
+    background: var(--amarelo); color: var(--preto);
+    border: none; font-size: var(--texto-grande); font-weight: 700;
+    padding: 18px 32px; border-radius: var(--radius); cursor: pointer;
+  }
+
+  /* ===== TOAST ===== */
+  #toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--amarelo); color: var(--preto);
+    font-size: var(--texto-grande); font-weight: 700;
+    padding: 18px 36px; border-radius: var(--radius);
+    z-index: 9999; transition: transform 0.3s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    white-space: nowrap;
+  }
+  #toast.visivel { transform: translateX(-50%) translateY(0); }
+
+  /* Scrollbar estilizada */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #222; }
+  ::-webkit-scrollbar-thumb { background: var(--amarelo); border-radius: 4px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    #hero h1 { font-size: 28px; }
+    #hero p { font-size: 18px; }
+    .form-card { padding: 28px 20px; }
+    .form-card h2 { font-size: 24px; }
+    .aba { padding: 14px 16px; font-size: 16px; }
+    .curso-card { flex-direction: column; }
+    #nav { padding: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVEGAÇÃO TOPO ===== -->
+<nav id="nav">
+  <div class="logo" onclick="irParaPagina('home')">
+    <img src="content.png" alt="Logo">
+  </div>
+  <div id="auth-nav" style="display:flex; gap:12px;">
+    <button class="nav-btn" onclick="irParaPagina('login')">🔑 Entrar</button>
+    <button class="nav-btn primary" onclick="irParaPagina('cadastro')">✅ Criar Conta</button>
+  </div>
+  <div id="user-nav">
+    <span class="nome-usuario" id="nome-display">👤 Usuário</span>
+    <button class="btn-sair" onclick="sair()">Sair</button>
+  </div>
+</nav>
+
+<!-- ===== ABAS ===== -->
+<div id="menu-abas">
+  <button class="aba ativa" data-pagina="home" onclick="irParaPagina('home')">🏠 Início</button>
+  <button class="aba" data-pagina="videos" onclick="irParaPagina('videos')">▶️ Vídeos</button>
+  <button class="aba" data-pagina="cursos" onclick="irParaPagina('cursos')">📚 Cursos</button>
+  <button class="aba" data-pagina="busca" onclick="irParaPagina('busca')">🔍 Buscar</button>
+  <button class="aba" data-pagina="sobre" onclick="irParaPagina('sobre')">ℹ️ Sobre</button>
+  <button class="aba" id="aba-conta" data-pagina="conta" onclick="irParaPagina('conta')" style="display:none;">👤 Minha Conta</button>
+  <button class="aba" id="aba-upload" data-pagina="upload" onclick="irParaPagina('upload')" style="display:none;">📤 Publicar</button>
+</div>
+
+<!-- ===== PÁGINAS ===== -->
+
+<!-- HOME -->
+<div class="pagina ativa" id="pagina-home">
+  <div id="hero">
+    <h1> Bem-vindo ao IDOTECH!</h1>
+    <p>Aprenda tecnologia no seu ritmo. Vídeos e cursos feitos especialmente para você, com letra grande e explicações simples.</p>
+    <button class="btn-comecar" onclick="irParaPagina('videos')">▶️ Começar a Aprender</button>
+  </div>
+
+  <div class="secao-home">
+    <h2 class="secao-titulo">📺 Vídeos em Destaque</h2>
+    <div class="grade" id="grade-home-videos"></div>
+  </div>
+
+  <div class="secao-home">
+    <h2 class="secao-titulo">📚 Cursos Populares</h2>
+    <div class="grade" id="grade-home-cursos"></div>
+  </div>
+</div>
+
+<!-- VÍDEOS -->
+<div class="pagina" id="pagina-videos">
+  <div class="secao-home">
+    <h2 class="secao-titulo">▶️ Todos os Vídeos</h2>
+    <div class="grade" id="grade-videos"></div>
+  </div>
+</div>
+
+<!-- PLAYER -->
+<div class="pagina" id="pagina-player">
+  <div class="player-wrap" id="player-area">
+    <div style="text-align:center;">
+      <div style="font-size:80px;">▶️</div>
+      <div style="font-size:22px; color:#666; margin-top:16px;" id="player-thumb-texto">Selecione um vídeo</div>
+    </div>
+    <div class="play-icon" id="play-pause-icon" onclick="togglePlay()" style="position:absolute; cursor:pointer;">▶</div>
+  </div>
+  <div class="player-controls">
+    <button class="ctrl-btn secundario" onclick="voltarLista()">← Voltar</button>
+    <button class="ctrl-btn" onclick="togglePlay()" id="btn-play">▶ Play</button>
+    <button class="ctrl-btn secundario" onclick="aumentarFonte()">A+</button>
+    <button class="ctrl-btn secundario" onclick="diminuirFonte()">A−</button>
+  </div>
+  <div id="player-info">
+    <h2 id="player-titulo">Título do Vídeo</h2>
+    <p id="player-desc">Descrição do vídeo aparece aqui.</p>
+  </div>
+</div>
+
+<!-- CURSOS -->
+<div class="pagina" id="pagina-cursos">
+  <div class="cursos-wrap">
+    <h2 class="secao-titulo">📚 Nossos Cursos</h2>
+    <div id="lista-cursos"></div>
+  </div>
+</div>
+
+<!-- BUSCA -->
+<div class="pagina" id="pagina-busca">
+  <div class="busca-wrap">
+    <h2 class="secao-titulo" style="margin-bottom:24px;">🔍 Buscar Conteúdo</h2>
+    <div class="barra-busca">
+      <input type="text" id="campo-busca" placeholder="Digite o que você quer aprender..." oninput="realizarBusca()">
+      <button onclick="realizarBusca()">Buscar</button>
+    </div>
+    <div class="grade" id="resultados-busca"></div>
+    <p id="msg-busca" style="color:#888; font-size:20px; text-align:center; margin-top:40px;">Digite acima para buscar vídeos e cursos.</p>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<div class="pagina" id="pagina-sobre">
+  <div class="sobre-wrap">
+    <h2>Sobre o IDOTECH</h2>
+    <p>O IDOTECH é uma plataforma criada com carinho para ajudar pessoas com 60 anos ou mais a aprender tecnologia de forma simples, segura e divertida.</p>
+    <p>Nossos vídeos e cursos ensinam desde o básico — como usar o celular e o computador — até coisas mais avançadas, sempre com letra grande e explicações fáceis de entender.</p>
+    <div class="feat-grid">
+      <div class="feat-item">
+        <div class="feat-icon">📺</div>
+        <h4>Vídeos Claros</h4>
+        <p>Explicações em vídeo com passos simples, na velocidade certa para você.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">📚</div>
+        <h4>Cursos Completos</h4>
+        <p>Cursos organizados do básico ao avançado. Aprenda no seu próprio ritmo.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🔡</div>
+        <h4>Letra Grande</h4>
+        <p>Todo o site foi feito com fonte grande para facilitar a leitura.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🆓</div>
+        <h4>Gratuito</h4>
+        <p>Acesso gratuito ao conteúdo básico. Sem complicações.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">🔒</div>
+        <h4>Seguro</h4>
+        <p>Ambiente seguro e protegido, sem propagandas ou conteúdo indesejado.</p>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon">💛</div>
+        <h4>Com Carinho</h4>
+        <p>Feito pensando em você, para que a tecnologia seja uma aliada, não um obstáculo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="pagina" id="pagina-login">
+  <div class="form-pagina">
+    <div class="form-card">
+      <h2>Entrar</h2>
+      <p class="subtitulo">Bem-vindo de volta!</p>
+      <div class="msg-erro" id="erro-login">Usuário ou senha incorretos. Tente novamente.</div>
+      <div class="campo">
+        <label for="login-email">📧 E-mail</label>
+        <input type="email" id="login-email" placeholder="seu@email.com">
+      </div>
+      <div class="campo">
+        <label for="login-senha">🔒 Senha</label>
+        <input type="password" id="login-senha" placeholder="Sua senha">
+      </div>
+      <button class="btn-form" onclick="fazerLogin()">Entrar</button>
+      <div class="form-link">
+        Não tem conta? <a onclick="irParaPagina('cadastro')">Criar conta grátis</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CADASTRO -->
+<div class="pagina" id="pagina-cadastro">
+  <div class="form-pagina">
+    <div class="form-card">
+      <h2>  Criar Conta</h2>
+      <p class="subtitulo">É rápido e gratuito!</p>
+      <div class="msg-erro" id="erro-cadastro">Por favor, preencha todos os campos.</div>
+      <div class="msg-sucesso" id="sucesso-cadastro">Conta criada! Você já está logado.</div>
+      <div class="campo">
+        <label for="cad-nome">👤 Seu Nome</label>
+        <input type="text" id="cad-nome" placeholder="Como você se chama?">
+      </div>
+      <div class="campo">
+        <label for="cad-email">📧 E-mail</label>
+        <input type="email" id="cad-email" placeholder="seu@email.com">
+      </div>
+      <div class="campo">
+        <label for="cad-senha">🔒 Senha</label>
+        <input type="password" id="cad-senha" placeholder="Crie uma senha">
+      </div>
+      <div class="campo">
+        <label for="cad-nascimento">🎂 Data de Nascimento</label>
+        <input type="date" id="cad-nascimento">
+      </div>
+      <button class="btn-form" onclick="fazerCadastro()">Criar Conta</button>
+      <div class="form-link">
+        Já tem conta? <a onclick="irParaPagina('login')">Entrar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MINHA CONTA -->
+<div class="pagina" id="pagina-conta">
+  <div class="conta-wrap">
+    <h2>👤 Minha Conta</h2>
+    <div class="conta-info">
+      <p>👤 Nome: <span id="conta-nome">—</span></p>
+      <p>📧 E-mail: <span id="conta-email">—</span></p>
+      <p>🎂 Data de Nascimento: <span id="conta-nasc">—</span></p>
+      <p>📅 Membro desde: <span id="conta-desde">—</span></p>
+      <p>👨‍🏫 Cargo: Professor<span id="conta-cargo"></span></p>
+    </div>
+    <div class="conta-info" style="margin-top:20px;">
+      <p style="font-size:22px; color:var(--amarelo); font-weight:700; margin-bottom:16px;">📊 Meu Progresso</p>
+      <p>▶️ Vídeos publicados: <span id="conta-videos">0</span></p>
+      <p>📚 Cursos publicados: <span id="conta-cursos">0</span></p>
+    </div>
+    <button class="btn-form" style="margin-top:20px; background:#5a0000; color:#fff;" onclick="sair()"> Sair da Conta</button>
+  </div>
+</div>
+
+<!-- PUBLICAR VÍDEO -->
+<div class="pagina" id="pagina-upload">
+  <div class="upload-wrap">
+    <h2>📤 Publicar Novo Conteúdo</h2>
+    <div class="upload-card">
+      <div class="campo">
+        <label>📝 Título</label>
+        <input type="text" id="up-titulo" placeholder="Título do vídeo ou curso">
+      </div>
+      <div class="campo">
+        <label>📄 Descrição</label>
+        <input type="text" id="up-desc" placeholder="Breve descrição">
+      </div>
+      <div class="campo">
+        <label>🏷️ Tipo</label>
+        <select id="up-tipo">
+          <option value="video">▶️ Vídeo</option>
+          <option value="curso">📚 Curso</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>📂 Categoria</label>
+        <select id="up-categoria">
+          <option value="celular">📱 Celular</option>
+          <option value="internet">🌐 Internet</option>
+          <option value="whatsapp">💬 WhatsApp</option>
+          <option value="seguranca">🔒 Segurança</option>
+          <option value="computador">💻 Computador</option>
+          <option value="redes-sociais">📸 Redes Sociais</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>🔗 Link do Vídeo (YouTube)</label>
+        <input type="url" id="up-link" placeholder="https://youtube.com/...">
+      </div>
+      <div class="campo">
+        <label>⏱️ Duração</label>
+        <input type="text" id="up-duracao" placeholder="Ex: 15 minutos">
+      </div>
+      <button class="btn-form" onclick="publicarConteudo()">📤 Publicar</button>
+      <div class="msg-sucesso" id="sucesso-upload" style="display:none; margin-top:16px;">Conteúdo publicado com sucesso!</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✅ Ação realizada!</div>
+
+<script>
+// ===== DADOS INICIAIS =====
+const VIDEOS_INICIAIS = [
+  { id: 1, titulo: "Como usar o WhatsApp", desc: "Aprenda a enviar mensagens, fotos e áudios pelo WhatsApp de forma simples.", emoji: "💬", cat: "whatsapp", duracao: "18 min", tipo: "video" },
+  { id: 2, titulo: "Videochamada pelo celular", desc: "Veja seu filho e netos pelo celular! Aprenda a fazer videochamadas.", emoji: "📹", cat: "celular", duracao: "12 min", tipo: "video" },
+  { id: 3, titulo: "Como não cair em golpes", desc: "Dicas essenciais para identificar e evitar golpes pela internet e WhatsApp.", emoji: "🔒", cat: "seguranca", duracao: "20 min", tipo: "video" },
+  { id: 4, titulo: "Fotos no celular", desc: "Como tirar fotos bonitas, organizar seu álbum e compartilhar com a família.", emoji: "📸", cat: "celular", duracao: "14 min", tipo: "video" },
+  { id: 5, titulo: "Pesquisar no Google", desc: "Aprenda a encontrar qualquer coisa na internet usando o Google.", emoji: "🌐", cat: "internet", duracao: "10 min", tipo: "video" },
+  { id: 6, titulo: "Pagar contas pelo celular", desc: "Como usar o banco pelo celular para pagar boletos e transferir dinheiro com segurança.", emoji: "💳", cat: "internet", duracao: "22 min", tipo: "video" },
+];
+
+const CURSOS_INICIAIS = [
+  { id: 101, titulo: "Celular do Zero", desc: "Tudo que você precisa saber para usar o celular com segurança e facilidade.", emoji: "📱", aulas: 8, cat: "celular", tipo: "curso" },
+  { id: 102, titulo: "Internet Segura", desc: "Aprenda a navegar na internet sem riscos. Do e-mail às compras online.", emoji: "🌐", aulas: 6, cat: "internet", tipo: "curso" },
+  { id: 103, titulo: "WhatsApp Completo", desc: "Dominar o WhatsApp de A a Z: grupos, listas, stickers, pagamentos e mais.", emoji: "💬", aulas: 5, cat: "whatsapp", tipo: "curso" },
+  { id: 104, titulo: "Computador Básico", desc: "Para quem está começando com o computador. Windows, Word e muito mais.", emoji: "💻", aulas: 10, cat: "computador", tipo: "curso" },
+];
+
+// ===== ESTADO DA APLICAÇÃO =====
+let estado = {
+  usuario: null,
+  paginaAnterior: 'home',
+  videosAssistidos: 0,
+  cursosAcessados: 0,
+};
+
+// Carregar dados do localStorage
+function carregarEstado() {
+  const salvo = localStorage.getItem('idotech_usuario');
+  if (salvo) {
+    estado.usuario = JSON.parse(salvo);
+    atualizarUI();
+  }
+  const videos = localStorage.getItem('idotech_videos');
+  const cursos_extra = localStorage.getItem('idotech_cursos');
+  // Merge com iniciais...
+}
+
+// ===== NAVEGAÇÃO =====
+function irParaPagina(pagina) {
+  // Páginas que precisam de login
+  const precisaLogin = ['conta', 'upload'];
+  if (precisaLogin.includes(pagina) && !estado.usuario) {
+    mostrarToast('⚠️ Faça login para acessar esta área');
+    irParaPagina('login');
+    return;
+  }
+
+  // Atualizar abas
+  document.querySelectorAll('.aba').forEach(a => {
+    a.classList.toggle('ativa', a.dataset.pagina === pagina);
+  });
+
+  // Mostrar página
+  document.querySelectorAll('.pagina').forEach(p => p.classList.remove('ativa'));
+  const target = document.getElementById('pagina-' + pagina);
+  if (target) {
+    target.classList.add('ativa');
+    window.scrollTo(0, 0);
+  }
+  estado.paginaAnterior = pagina;
+}
+
+// ===== AUTENTICAÇÃO =====
+function fazerLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const senha = document.getElementById('login-senha').value;
+  const erro = document.getElementById('erro-login');
+
+  if (!email || !senha) {
+    erro.textContent = 'Por favor, preencha o e-mail e a senha.';
+    erro.style.display = 'block';
+    return;
+  }
+
+  // Buscar no localStorage
+  const usuarios = JSON.parse(localStorage.getItem('idotech_usuarios') || '[]');
+  const encontrado = usuarios.find(u => u.email === email && u.senha === senha);
+
+  if (!encontrado) {
+    erro.textContent = 'E-mail ou senha incorretos. Tente novamente.';
+    erro.style.display = 'block';
+    return;
+  }
+
+  erro.style.display = 'none';
+  estado.usuario = encontrado;
+  localStorage.setItem('idotech_usuario', JSON.stringify(encontrado));
+  atualizarUI();
+  mostrarToast('✅ Bem-vindo Professor, ' + encontrado.nome + '!');
+  irParaPagina('home');
+}
+
+function fazerCadastro() {
+  const nome = document.getElementById('cad-nome').value.trim();
+  const email = document.getElementById('cad-email').value.trim();
+  const senha = document.getElementById('cad-senha').value;
+  const nasc = document.getElementById('cad-nascimento').value;
+  const erro = document.getElementById('erro-cadastro');
+  const sucesso = document.getElementById('sucesso-cadastro');
+
+  if (!nome || !email || !senha) {
+    erro.textContent = 'Por favor, preencha nome, e-mail e senha.';
+    erro.style.display = 'block';
+    sucesso.style.display = 'none';
+    return;
+  }
+
+  if (senha.length < 4) {
+    erro.textContent = 'A senha deve ter pelo menos 4 caracteres.';
+    erro.style.display = 'block';
+    return;
+  }
+
+  // Verificar se email já existe
+  const usuarios = JSON.parse(localStorage.getItem('idotech_usuarios') || '[]');
+  if (usuarios.find(u => u.email === email)) {
+    erro.textContent = 'Este e-mail já está cadastrado. Tente fazer login.';
+    erro.style.display = 'block';
+    return;
+  }
+
+  const novoUsuario = {
+    nome, email, senha, nasc,
+    desde: new Date().toLocaleDateString('pt-BR'),
+    videosAssistidos: 0, cursosAcessados: 0
+  };
+  usuarios.push(novoUsuario);
+  localStorage.setItem('idotech_usuarios', JSON.stringify(usuarios));
+
+  erro.style.display = 'none';
+  sucesso.style.display = 'block';
+
+  estado.usuario = novoUsuario;
+  localStorage.setItem('idotech_usuario', JSON.stringify(novoUsuario));
+  atualizarUI();
+
+  setTimeout(() => {
+    mostrarToast('🎉 Conta criada! Bem-vindo ao IDOTECH!');
+    irParaPagina('home');
+  }, 1200);
+}
+
+function sair() {
+  estado.usuario = null;
+  localStorage.removeItem('idotech_usuario');
+  atualizarUI();
+ 
+  irParaPagina('home');
+}
+
+function atualizarUI() {
+  const logado = !!estado.usuario;
+  document.getElementById('auth-nav').style.display = logado ? 'none' : 'flex';
+  document.getElementById('user-nav').style.display = logado ? 'flex' : 'none';
+  document.getElementById('aba-conta').style.display = logado ? 'block' : 'none';
+  document.getElementById('aba-upload').style.display = logado ? 'block' : 'none';
+
+  if (logado) {
+    document.getElementById('nome-display').textContent = '👤 ' + estado.usuario.nome;
+    document.getElementById('conta-nome').textContent = estado.usuario.nome;
+    document.getElementById('conta-email').textContent = estado.usuario.email;
+    document.getElementById('conta-nasc').textContent = estado.usuario.nasc || 'Não informado';
+    document.getElementById('conta-desde').textContent = estado.usuario.desde || '—';
+    document.getElementById('conta-videos').textContent = estado.usuario.videosAssistidos || 0;
+    document.getElementById('conta-cursos').textContent = estado.usuario.cursosAcessados || 0;
+  }
+}
+
+// ===== RENDERIZAÇÃO DE CONTEÚDO =====
+function getVideos() {
+  const extras = JSON.parse(localStorage.getItem('idotech_videos_extra') || '[]');
+  return [...VIDEOS_INICIAIS, ...extras];
+}
+
+function getCursos() {
+  const extras = JSON.parse(localStorage.getItem('idotech_cursos_extra') || '[]');
+  return [...CURSOS_INICIAIS, ...extras];
+}
+
+function criarCardVideo(v) {
+  return `<div class="card" onclick="abrirPlayer(${JSON.stringify(JSON.stringify(v))})">
+    <div class="card-thumb">
+      <span style="font-size:52px;">${v.emoji}</span>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="card-info">
+      <h3>${v.titulo}</h3>
+      <p>${v.desc}</p>
+      <span class="tag">${v.cat}</span>
+      <p class="duracao">⏱️ ${v.duracao}</p>
+    </div>
+  </div>`;
+}
+
+function criarCardCurso(c) {
+  return `<div class="card" onclick="abrirCurso(${c.id})">
+    <div class="card-thumb" style="background:#1a2a1a;">
+      <span style="font-size:52px;">${c.emoji}</span>
+    </div>
+    <div class="card-info">
+      <h3>${c.titulo}</h3>
+      <p>${c.desc}</p>
+      <span class="tag">Curso</span>
+      <p class="duracao">📖 ${c.aulas} aulas</p>
+    </div>
+  </div>`;
+}
+
+function renderizarHome() {
+  const videos = getVideos().slice(0, 3);
+  const cursos = getCursos().slice(0, 3);
+  document.getElementById('grade-home-videos').innerHTML = videos.map(criarCardVideo).join('');
+  document.getElementById('grade-home-cursos').innerHTML = cursos.map(criarCardCurso).join('');
+}
+
+function renderizarVideos() {
+  document.getElementById('grade-videos').innerHTML = getVideos().map(criarCardVideo).join('');
+}
+
+function renderizarCursos() {
+  const cursos = getCursos();
+  document.getElementById('lista-cursos').innerHTML = cursos.map(c => `
+    <div class="curso-card" onclick="abrirCurso(${c.id})">
+      <div class="curso-icon">${c.emoji}</div>
+      <div class="curso-body">
+        <h3>${c.titulo}</h3>
+        <p>${c.desc}</p>
+        <p class="aulas-count">📖 ${c.aulas} aulas</p>
+        <button class="btn-acessar-curso">▶️ Começar Curso</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== PLAYER =====
+let videoAtual = null;
+let tocando = false;
+
+function abrirPlayer(videoJson) {
+  const v = JSON.parse(videoJson);
+  videoAtual = v;
+  tocando = false;
+
+  document.getElementById('player-titulo').textContent = v.titulo;
+  document.getElementById('player-desc').textContent = v.desc;
+  document.getElementById('player-thumb-texto').textContent = v.emoji + ' ' + v.titulo;
+  document.getElementById('btn-play').textContent = '▶ Play';
+  document.getElementById('play-pause-icon').textContent = '▶';
+
+  // Registrar visualização
+  if (estado.usuario) {
+    estado.usuario.videosAssistidos = (estado.usuario.videosAssistidos || 0) + 1;
+    localStorage.setItem('idotech_usuario', JSON.stringify(estado.usuario));
+    atualizarUI();
+  }
+
+  irParaPagina('player');
+}
+
+function togglePlay() {
+  tocando = !tocando;
+  const icon = document.getElementById('play-pause-icon');
+  const btn = document.getElementById('btn-play');
+  if (tocando) {
+    icon.textContent = '⏸';
+    btn.textContent = '⏸ Pausar';
+    mostrarToast('▶️ Reproduzindo: ' + (videoAtual ? videoAtual.titulo : ''));
+  } else {
+    icon.textContent = '▶';
+    btn.textContent = '▶ Play';
+  }
+}
+
+function voltarLista() {
+  irParaPagina('videos');
+}
+
+// Acessibilidade: ajuste de fonte
+let tamanhoFonte = 18;
+function aumentarFonte() {
+  tamanhoFonte = Math.min(tamanhoFonte + 2, 28);
+  document.documentElement.style.setProperty('--texto-grande', tamanhoFonte + 'px');
+  document.documentElement.style.setProperty('--texto-medio', (tamanhoFonte - 2) + 'px');
+  mostrarToast('🔡 Letra maior');
+}
+function diminuirFonte() {
+  tamanhoFonte = Math.max(tamanhoFonte - 2, 14);
+  document.documentElement.style.setProperty('--texto-grande', tamanhoFonte + 'px');
+  document.documentElement.style.setProperty('--texto-medio', (tamanhoFonte - 2) + 'px');
+  mostrarToast('🔡 Letra menor');
+}
+
+// ===== CURSOS =====
+function abrirCurso(id) {
+  const todos = getCursos();
+  const curso = todos.find(c => c.id === id);
+  if (!curso) return;
+
+  if (estado.usuario) {
+    estado.usuario.cursosAcessados = (estado.usuario.cursosAcessados || 0) + 1;
+    localStorage.setItem('idotech_usuario', JSON.stringify(estado.usuario));
+    atualizarUI();
+  }
+
+  mostrarToast('📚 Abrindo curso: ' + curso.titulo);
+  // Simulação: abrir primeiro vídeo da categoria
+  const primeiroVideo = getVideos().find(v => v.cat === curso.cat) || getVideos()[0];
+  abrirPlayer(JSON.stringify(primeiroVideo));
+}
+
+// ===== BUSCA =====
+function realizarBusca() {
+  const termo = document.getElementById('campo-busca').value.toLowerCase().trim();
+  const container = document.getElementById('resultados-busca');
+  const msg = document.getElementById('msg-busca');
+
+  if (!termo) {
+    container.innerHTML = '';
+    msg.style.display = 'block';
+    msg.textContent = 'Digite acima para buscar vídeos e cursos.';
+    return;
+  }
+
+  const todosVideos = getVideos().filter(v =>
+    v.titulo.toLowerCase().includes(termo) ||
+    v.desc.toLowerCase().includes(termo) ||
+    v.cat.toLowerCase().includes(termo)
+  );
+  const todosCursos = getCursos().filter(c =>
+    c.titulo.toLowerCase().includes(termo) ||
+    c.desc.toLowerCase().includes(termo) ||
+    c.cat.toLowerCase().includes(termo)
+  );
+
+  const resultados = [...todosVideos.map(criarCardVideo), ...todosCursos.map(criarCardCurso)];
+
+  if (resultados.length === 0) {
+    container.innerHTML = '';
+    msg.style.display = 'block';
+    msg.textContent = 'Nenhum resultado para "' + termo + '". Tente outro termo.';
+  } else {
+    msg.style.display = 'none';
+    container.innerHTML = resultados.join('');
+  }
+}
+
+// ===== PUBLICAR CONTEÚDO =====
+function publicarConteudo() {
+  const titulo = document.getElementById('up-titulo').value.trim();
+  const desc = document.getElementById('up-desc').value.trim();
+  const tipo = document.getElementById('up-tipo').value;
+  const cat = document.getElementById('up-categoria').value;
+  const duracao = document.getElementById('up-duracao').value.trim();
+
+  if (!titulo || !desc) {
+    mostrarToast('⚠️ Preencha o título e a descrição.');
+    return;
+  }
+
+  const EMOJIS = { celular:'📱', internet:'🌐', whatsapp:'💬', seguranca:'🔒', computador:'💻', 'redes-sociais':'📸' };
+
+  if (tipo === 'video') {
+    const videos_extra = JSON.parse(localStorage.getItem('idotech_videos_extra') || '[]');
+    const novo = {
+      id: Date.now(), titulo, desc, cat,
+      emoji: EMOJIS[cat] || '▶️',
+      duracao: duracao || '—', tipo: 'video'
+    };
+    videos_extra.push(novo);
+    localStorage.setItem('idotech_videos_extra', JSON.stringify(videos_extra));
+  } else {
+    const cursos_extra = JSON.parse(localStorage.getItem('idotech_cursos_extra') || '[]');
+    const novo = {
+      id: Date.now(), titulo, desc, cat,
+      emoji: EMOJIS[cat] || '📚',
+      aulas: 1, tipo: 'curso'
+    };
+    cursos_extra.push(novo);
+    localStorage.setItem('idotech_cursos_extra', JSON.stringify(cursos_extra));
+  }
+
+  document.getElementById('up-titulo').value = '';
+  document.getElementById('up-desc').value = '';
+  document.getElementById('up-link').value = '';
+  document.getElementById('up-duracao').value = '';
+  document.getElementById('sucesso-upload').style.display = 'block';
+  mostrarToast('✅ Conteúdo publicado!');
+
+  setTimeout(() => { document.getElementById('sucesso-upload').style.display = 'none'; }, 3000);
+
+  // Re-renderizar listas
+  renderizarHome();
+  renderizarVideos();
+  renderizarCursos();
+}
+
+// ===== TOAST =====
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visivel');
+  setTimeout(() => t.classList.remove('visivel'), 2800);
+}
+
+// ===== INICIALIZAÇÃO =====
+carregarEstado();
+renderizarHome();
+renderizarVideos();
+renderizarCursos();
+</script>
+</body>
+</html>
